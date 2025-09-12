@@ -11,6 +11,8 @@ API RESTful para la gestión de franquicias, sucursales y productos, desarrollad
 - Clean Code
 - Base de datos H2 en memoria
 - Documentación con OpenAPI/Swagger
+- Actualizaciones parciales de recursos
+- Dockerización para fácil despliegue
 
 ## Estructura del Proyecto
 
@@ -30,10 +32,13 @@ La aplicación sigue una arquitectura hexagonal con las siguientes capas:
 
 - Java 21
 - Gradle
+- Docker (opcional, para ejecución con contenedores)
 
 ## Ejecución
 
-Para ejecutar la aplicación, sigue estos pasos:
+### Ejecución local
+
+Para ejecutar la aplicación localmente, sigue estos pasos:
 
 1. Clona el repositorio
 2. Navega al directorio del proyecto
@@ -44,6 +49,26 @@ Para ejecutar la aplicación, sigue estos pasos:
 ```
 
 La aplicación estará disponible en `http://localhost:8080`
+
+### Ejecución con Docker
+
+Para ejecutar la aplicación con Docker, sigue estos pasos:
+
+1. Clona el repositorio
+2. Navega al directorio del proyecto
+3. Construye y ejecuta la aplicación con Docker Compose:
+
+```bash
+docker-compose up --build
+```
+
+La aplicación estará disponible en `http://localhost:8080`
+
+Para detener la aplicación:
+
+```bash
+docker-compose down
+```
 
 ## Documentación de la API
 
@@ -56,28 +81,98 @@ La documentación de la API está disponible en:
 
 ### Franquicias
 
-- `POST /api/franquicias`: Crear una nueva franquicia
-- `GET /api/franquicias`: Obtener todas las franquicias
-- `GET /api/franquicias/{id}`: Obtener una franquicia por su ID
-- `PUT /api/franquicias/{id}`: Actualizar una franquicia existente
-- `DELETE /api/franquicias/{id}`: Eliminar una franquicia
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| POST | `/api/franquicias` | Crear una nueva franquicia |
+| GET | `/api/franquicias` | Obtener todas las franquicias |
+| GET | `/api/franquicias/{id}` | Obtener una franquicia por su ID |
+| PUT | `/api/franquicias/{id}` | Actualizar completamente una franquicia existente |
+| PATCH | `/api/franquicias/{id}` | Actualizar parcialmente una franquicia existente (solo los campos proporcionados) |
+| DELETE | `/api/franquicias/{id}` | Eliminar una franquicia |
 
 ### Sucursales
 
-- `POST /api/sucursales/franquicia/{franquiciaId}`: Crear una nueva sucursal para una franquicia
-- `GET /api/sucursales/{id}`: Obtener una sucursal por su ID
-- `GET /api/sucursales/franquicia/{franquiciaId}`: Obtener todas las sucursales de una franquicia
-- `PUT /api/sucursales/{id}`: Actualizar una sucursal existente
-- `DELETE /api/sucursales/{id}`: Eliminar una sucursal
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| POST | `/api/sucursales/franquicia/{franquiciaId}` | Crear una nueva sucursal para una franquicia |
+| GET | `/api/sucursales/{id}` | Obtener una sucursal por su ID |
+| GET | `/api/sucursales/franquicia/{franquiciaId}` | Obtener todas las sucursales de una franquicia |
+| PUT | `/api/sucursales/{id}` | Actualizar completamente una sucursal existente |
+| PATCH | `/api/sucursales/{id}` | Actualizar parcialmente una sucursal existente (solo los campos proporcionados) |
+| DELETE | `/api/sucursales/{id}` | Eliminar una sucursal |
 
 ### Productos
 
-- `POST /api/productos/sucursal/{sucursalId}`: Crear un nuevo producto para una sucursal
-- `GET /api/productos/{id}`: Obtener un producto por su ID
-- `GET /api/productos/sucursal/{sucursalId}`: Obtener todos los productos de una sucursal
-- `PUT /api/productos/{id}`: Actualizar un producto existente
-- `PATCH /api/productos/{id}/stock/{cantidad}`: Actualizar el stock de un producto
-- `DELETE /api/productos/{id}`: Eliminar un producto
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| POST | `/api/productos/sucursal/{sucursalId}` | Crear un nuevo producto para una sucursal |
+| GET | `/api/productos/{id}` | Obtener un producto por su ID |
+| GET | `/api/productos/sucursal/{sucursalId}` | Obtener todos los productos de una sucursal |
+| PUT | `/api/productos/{id}` | Actualizar completamente un producto existente |
+| PATCH | `/api/productos/{id}` | Actualizar parcialmente un producto existente (solo los campos proporcionados) |
+| PATCH | `/api/productos/{id}/stock/{cantidad}` | Actualizar específicamente el stock de un producto |
+| GET | `/api/productos/max-stock/franquicia/{franquiciaId}` | Obtener el producto con más stock por sucursal para una franquicia específica |
+| DELETE | `/api/productos/{id}` | Eliminar un producto |
+
+## Ejemplos de Uso
+
+### Actualización Parcial
+
+Para actualizar solo el nombre de una franquicia:
+
+```http
+PATCH /api/franquicias/{id}
+Content-Type: application/json
+
+{
+  "nombre": "Nuevo Nombre de Franquicia"
+}
+```
+
+Para actualizar solo el stock de un producto:
+
+```http
+PATCH /api/productos/{id}
+Content-Type: application/json
+
+{
+  "stock": 150
+}
+```
+
+### Obtener Producto con Más Stock por Sucursal
+
+```http
+GET /api/productos/max-stock/franquicia/{franquiciaId}
+```
+
+Respuesta:
+```json
+[
+  {
+    "producto": {
+      "id": "1",
+      "nombre": "Producto A",
+      "stock": 100
+    },
+    "sucursal": {
+      "id": "1",
+      "nombre": "Sucursal Central"
+    }
+  },
+  {
+    "producto": {
+      "id": "5",
+      "nombre": "Producto B",
+      "stock": 75
+    },
+    "sucursal": {
+      "id": "2",
+      "nombre": "Sucursal Norte"
+    }
+  }
+]
+```
 
 ## Consola H2
 
