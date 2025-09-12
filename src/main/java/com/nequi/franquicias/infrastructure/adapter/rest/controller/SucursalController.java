@@ -50,16 +50,7 @@ public class SucursalController {
         return sucursalUseCase.obtenerSucursalesPorFranquiciaId(franquiciaId)
                 .map(mapper::toDTO);
     }
-    
-    @PutMapping("/{id}")
-    @Operation(summary = "Actualizar una sucursal existente")
-    public Mono<SucursalDTO> actualizarSucursal(@PathVariable Long id, @Valid @RequestBody SucursalDTO sucursalDTO) {
-        return Mono.just(sucursalDTO)
-                .map(mapper::toDomain)
-                .flatMap(sucursal -> sucursalUseCase.actualizarSucursal(id, sucursal))
-                .map(mapper::toDTO);
-    }
-    
+
     @PatchMapping("/{id}")
     @Operation(summary = "Actualizar parcialmente una sucursal existente")
     public Mono<SucursalDTO> actualizarSucursalParcial(@PathVariable Long id, @Valid @RequestBody SucursalUpdateDTO sucursalUpdateDTO) {

@@ -53,16 +53,7 @@ public class ProductoController {
         return productoUseCase.obtenerProductosPorSucursalId(sucursalId)
                 .map(mapper::toDTO);
     }
-    
-    @PutMapping("/{id}")
-    @Operation(summary = "Actualizar un producto existente")
-    public Mono<ProductoDTO> actualizarProducto(@PathVariable Long id, @Valid @RequestBody ProductoDTO productoDTO) {
-        return Mono.just(productoDTO)
-                .map(mapper::toDomain)
-                .flatMap(producto -> productoUseCase.actualizarProducto(id, producto))
-                .map(mapper::toDTO);
-    }
-    
+
     @PatchMapping("/{id}")
     @Operation(summary = "Actualizar parcialmente un producto existente")
     public Mono<ProductoDTO> actualizarProductoParcial(@PathVariable Long id, @Valid @RequestBody ProductoUpdateDTO productoUpdateDTO) {

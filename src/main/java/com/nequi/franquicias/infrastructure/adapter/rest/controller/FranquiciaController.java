@@ -50,16 +50,7 @@ public class FranquiciaController {
         return franquiciaUseCase.obtenerTodasLasFranquicias()
                 .map(mapper::toDTO);
     }
-    
-    @PutMapping("/{id}")
-    @Operation(summary = "Actualizar una franquicia existente")
-    public Mono<FranquiciaDTO> actualizarFranquicia(@PathVariable Long id, @Valid @RequestBody FranquiciaDTO franquiciaDTO) {
-        return Mono.just(franquiciaDTO)
-                .map(mapper::toDomain)
-                .flatMap(franquicia -> franquiciaUseCase.actualizarFranquicia(id, franquicia))
-                .map(mapper::toDTO);
-    }
-    
+
     @PatchMapping("/{id}")
     @Operation(summary = "Actualizar parcialmente una franquicia existente")
     public Mono<FranquiciaDTO> actualizarFranquiciaParcial(@PathVariable Long id, @Valid @RequestBody FranquiciaUpdateDTO franquiciaUpdateDTO) {

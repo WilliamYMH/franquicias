@@ -31,6 +31,7 @@ public class ProductoService implements ProductoUseCase {
                     return Mono.just(producto)
                             .map(p -> {
                                 p.setId(null); // Aseguramos que se genere un nuevo ID
+                                p.setSucursalId(sucursalId); // Asignamos el sucursalId al producto
                                 return p;
                             })
                             .flatMap(p -> productoRepository.save(p));
