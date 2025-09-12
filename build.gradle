@@ -36,10 +36,9 @@ dependencies {
 	
 	// Validation
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	
-	// Documentation - Actualizado a la versión compatible con Spring 6.2.x
-	implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.4.0'
-	
+
+	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webflux-ui
+	implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.8.13'
 	// Actuator for health checks
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	

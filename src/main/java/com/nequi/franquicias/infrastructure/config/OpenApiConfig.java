@@ -1,5 +1,6 @@
 package com.nequi.franquicias.infrastructure.config;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
@@ -16,12 +17,14 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
+                .components(new Components())
+                .openapi("3.0.1")  // Especificar explícitamente la versión de OpenAPI
                 .info(new Info()
                         .title("API de Franquicias")
                         .description("API para la gestión de franquicias, sucursales y productos")
                         .version("1.0.0")
                         .contact(new Contact()
-                                .name("Nequi")
+                                .name("William Moreno")
                                 .email("info@nequi.com")
                                 .url("https://www.nequi.com"))
                         .license(new License()
