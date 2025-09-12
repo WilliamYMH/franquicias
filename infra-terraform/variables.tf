@@ -37,3 +37,9 @@ variable "docker_image" {
   description = "Container image for the application (e.g. dockerhub_user/franquicias:latest)"
   type        = string
 }
+
+variable "aws_profile" {
+  description = "AWS named profile to use for credentials (from ~/.aws/credentials)"
+  type        = string
+  default     = "franquicias"
+}

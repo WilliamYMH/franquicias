@@ -9,7 +9,8 @@ terraform {
 }
 
 provider "aws" {
-  region = var.aws_region
+  region  = var.aws_region
+  profile = var.aws_profile
 }
 
 ############################
@@ -125,8 +126,7 @@ resource "aws_db_instance" "mysql" {
   allocated_storage       = 20
   storage_type            = "gp2"
   engine                  = "mysql"
-  engine_version          = "8.0"
-  instance_class          = "db.t2.micro" # Free tier eligible
+  instance_class          = "db.t3.micro" # Free tier eligible in most regions
   db_name                 = "franquicias"
   username                = var.db_username
   password                = var.db_password
@@ -157,7 +157,7 @@ data "aws_ami" "al2" {
 
 resource "aws_instance" "app" {
   ami                         = data.aws_ami.al2.id
-  instance_type               = "t2.micro"
+  instance_type               = "t3.micro"
   subnet_id                   = aws_subnet.public.id
   vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
   key_name                    = var.key_name
