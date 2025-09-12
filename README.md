@@ -9,7 +9,7 @@ API RESTful para la gestión de franquicias, sucursales y productos, desarrollad
 - Programación Funcional
 - Principios SOLID
 - Clean Code
-- Base de datos H2 en memoria
+- Base de datos MySQL
 - Documentación con OpenAPI/Swagger
 - Actualizaciones parciales de recursos
 - Dockerización para fácil despliegue
@@ -74,7 +74,7 @@ docker-compose down
 
 La documentación de la API está disponible en:
 
-- Swagger UI: `http://localhost:8080/swagger-ui.html`
+- Swagger UI: `http://localhost:8080/v3/webjars/swagger-ui/index.html#/`
 - OpenAPI JSON: `http://localhost:8080/api-docs`
 
 ## Endpoints
@@ -108,7 +108,6 @@ La documentación de la API está disponible en:
 | POST | `/api/productos/sucursal/{sucursalId}` | Crear un nuevo producto para una sucursal |
 | GET | `/api/productos/{id}` | Obtener un producto por su ID |
 | GET | `/api/productos/sucursal/{sucursalId}` | Obtener todos los productos de una sucursal |
-| PUT | `/api/productos/{id}` | Actualizar completamente un producto existente |
 | PATCH | `/api/productos/{id}` | Actualizar parcialmente un producto existente (solo los campos proporcionados) |
 | PATCH | `/api/productos/{id}/stock/{cantidad}` | Actualizar específicamente el stock de un producto |
 | GET | `/api/productos/max-stock/franquicia/{franquiciaId}` | Obtener el producto con más stock por sucursal para una franquicia específica |
@@ -151,34 +150,35 @@ Respuesta:
 [
   {
     "producto": {
-      "id": "1",
+      "id": 1,
       "nombre": "Producto A",
       "stock": 100
     },
     "sucursal": {
-      "id": "1",
+      "id": 1,
       "nombre": "Sucursal Central"
     }
   },
   {
     "producto": {
-      "id": "5",
+      "id": 5,
       "nombre": "Producto B",
       "stock": 75
     },
     "sucursal": {
-      "id": "2",
+      "id": 2,
       "nombre": "Sucursal Norte"
     }
   }
 ]
 ```
 
-## Consola H2
+## Base de datos MySQL
 
-La consola de la base de datos H2 está disponible en:
+La aplicación utiliza MySQL como base de datos. Cuando se ejecuta con Docker, la base de datos se configura automáticamente con los siguientes parámetros:
 
-- URL: `http://localhost:8080/h2-console`
-- JDBC URL: `jdbc:h2:mem:franquicias`
-- Usuario: `sa`
-- Contraseña: (dejar en blanco)
+- Host: `mysql` (dentro de la red Docker) o `localhost` (para acceso local)
+- Puerto: `3306`
+- Base de datos: `franquicias`
+- Usuario: `root`
+- Contraseña: `root`
