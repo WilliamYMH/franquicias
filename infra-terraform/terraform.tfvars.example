@@ -1,0 +1,21 @@
+# Copia este archivo a terraform.tfvars y reemplaza los valores según tu entorno
+aws_region       = "us-east-1"
+
+# Cambia esto por tu IP pública en formato CIDR para acceso SSH (recomendado)
+# Ejemplo: "203.0.113.10/32"
+allowed_ssh_cidr = "0.0.0.0/0"
+
+# Puerto de la app
+app_port   = 8080
+
+# Credenciales de la base de datos (usa valores fuertes)
+db_username = "admin"
+db_password = "cambia_esta_password"
+
+# Nombre del key pair de EC2 existente en tu cuenta
+key_name = "tu-keypair"
+
+# Imagen Docker de la app (Docker Hub o ECR)
+# Ejemplo (Docker Hub): "tuusuario/franquicias:latest"
+# Si usas ECR, pon la URL completa del repositorio
+docker_image = "tuusuario/franquicias:latest"
