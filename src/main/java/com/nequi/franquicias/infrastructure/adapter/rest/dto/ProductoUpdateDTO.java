@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class ProductoUpdateDTO {
     
     @Null(message = "No se permite actualizar el ID")
-    private String id;
+    private Long id;
     
     private String nombre;
     
@@ -25,5 +25,5 @@ public class ProductoUpdateDTO {
     private Integer stock;
     
     @Null(message = "No se permite actualizar el ID de la sucursal")
-    private String sucursalId;
+    private Long sucursalId;
 }

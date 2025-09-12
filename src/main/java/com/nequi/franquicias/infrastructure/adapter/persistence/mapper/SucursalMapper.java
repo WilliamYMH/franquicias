@@ -4,8 +4,6 @@ import com.nequi.franquicias.domain.model.Sucursal;
 import com.nequi.franquicias.infrastructure.adapter.persistence.entity.SucursalEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 /**
  * Mapeador para convertir entre entidades de dominio y entidades de persistencia de sucursales.
  */
@@ -19,9 +17,9 @@ public class SucursalMapper {
      * @param franquiciaId ID de la franquicia a la que pertenece la sucursal
      * @return entidad de persistencia
      */
-    public SucursalEntity toEntity(Sucursal sucursal, String franquiciaId) {
+    public SucursalEntity toEntity(Sucursal sucursal, Long franquiciaId) {
         return SucursalEntity.builder()
-                .id(sucursal.getId() != null ? sucursal.getId() : UUID.randomUUID().toString())
+                .id(sucursal.getId())
                 .nombre(sucursal.getNombre())
                 .franquiciaId(franquiciaId)
                 .build();
@@ -37,6 +35,7 @@ public class SucursalMapper {
         return Sucursal.builder()
                 .id(entity.getId())
                 .nombre(entity.getNombre())
+                .franquiciaId(entity.getFranquiciaId())
                 .build();
     }
 }

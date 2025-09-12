@@ -16,7 +16,7 @@ public interface SucursalUseCase {
      * @param sucursal la sucursal a crear
      * @return la sucursal creada
      */
-    Mono<Sucursal> crearSucursal(String franquiciaId, Sucursal sucursal);
+    Mono<Sucursal> crearSucursal(Long franquiciaId, Sucursal sucursal);
     
     /**
      * Obtiene una sucursal por su ID.
@@ -24,7 +24,7 @@ public interface SucursalUseCase {
      * @param id el ID de la sucursal
      * @return la sucursal encontrada o un Mono vacío si no existe
      */
-    Mono<Sucursal> obtenerSucursalPorId(String id);
+    Mono<Sucursal> obtenerSucursalPorId(Long id);
     
     /**
      * Obtiene todas las sucursales de una franquicia.
@@ -32,7 +32,7 @@ public interface SucursalUseCase {
      * @param franquiciaId el ID de la franquicia
      * @return un flujo de sucursales
      */
-    Flux<Sucursal> obtenerSucursalesPorFranquiciaId(String franquiciaId);
+    Flux<Sucursal> obtenerSucursalesPorFranquiciaId(Long franquiciaId);
     
     /**
      * Actualiza una sucursal existente.
@@ -41,7 +41,7 @@ public interface SucursalUseCase {
      * @param sucursal la sucursal con los datos actualizados
      * @return la sucursal actualizada
      */
-    Mono<Sucursal> actualizarSucursal(String id, Sucursal sucursal);
+    Mono<Sucursal> actualizarSucursal(Long id, Sucursal sucursal);
     
     /**
      * Elimina una sucursal por su ID.
@@ -49,5 +49,5 @@ public interface SucursalUseCase {
      * @param id el ID de la sucursal a eliminar
      * @return un Mono que completa cuando la operación termina
      */
-    Mono<Void> eliminarSucursal(String id);
+    Mono<Void> eliminarSucursal(Long id);
 }

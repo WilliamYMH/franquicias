@@ -30,7 +30,7 @@ public class SucursalController {
     @PostMapping("/franquicia/{franquiciaId}")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Crear una nueva sucursal para una franquicia")
-    public Mono<SucursalDTO> crearSucursal(@PathVariable String franquiciaId, @Valid @RequestBody SucursalDTO sucursalDTO) {
+    public Mono<SucursalDTO> crearSucursal(@PathVariable Long franquiciaId, @Valid @RequestBody SucursalDTO sucursalDTO) {
         return Mono.just(sucursalDTO)
                 .map(mapper::toDomain)
                 .flatMap(sucursal -> sucursalUseCase.crearSucursal(franquiciaId, sucursal))
@@ -39,21 +39,21 @@ public class SucursalController {
     
     @GetMapping("/{id}")
     @Operation(summary = "Obtener una sucursal por su ID")
-    public Mono<SucursalDTO> obtenerSucursalPorId(@PathVariable String id) {
+    public Mono<SucursalDTO> obtenerSucursalPorId(@PathVariable Long id) {
         return sucursalUseCase.obtenerSucursalPorId(id)
                 .map(mapper::toDTO);
     }
     
     @GetMapping("/franquicia/{franquiciaId}")
     @Operation(summary = "Obtener todas las sucursales de una franquicia")
-    public Flux<SucursalDTO> obtenerSucursalesPorFranquiciaId(@PathVariable String franquiciaId) {
+    public Flux<SucursalDTO> obtenerSucursalesPorFranquiciaId(@PathVariable Long franquiciaId) {
         return sucursalUseCase.obtenerSucursalesPorFranquiciaId(franquiciaId)
                 .map(mapper::toDTO);
     }
     
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar una sucursal existente")
-    public Mono<SucursalDTO> actualizarSucursal(@PathVariable String id, @Valid @RequestBody SucursalDTO sucursalDTO) {
+    public Mono<SucursalDTO> actualizarSucursal(@PathVariable Long id, @Valid @RequestBody SucursalDTO sucursalDTO) {
         return Mono.just(sucursalDTO)
                 .map(mapper::toDomain)
                 .flatMap(sucursal -> sucursalUseCase.actualizarSucursal(id, sucursal))
@@ -62,7 +62,7 @@ public class SucursalController {
     
     @PatchMapping("/{id}")
     @Operation(summary = "Actualizar parcialmente una sucursal existente")
-    public Mono<SucursalDTO> actualizarSucursalParcial(@PathVariable String id, @Valid @RequestBody SucursalUpdateDTO sucursalUpdateDTO) {
+    public Mono<SucursalDTO> actualizarSucursalParcial(@PathVariable Long id, @Valid @RequestBody SucursalUpdateDTO sucursalUpdateDTO) {
         return sucursalUseCase.obtenerSucursalPorId(id)
                 .map(sucursal -> updateMapper.applyUpdate(sucursalUpdateDTO, sucursal))
                 .flatMap(sucursal -> sucursalUseCase.actualizarSucursal(id, sucursal))
@@ -72,7 +72,7 @@ public class SucursalController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Eliminar una sucursal por su ID")
-    public Mono<Void> eliminarSucursal(@PathVariable String id) {
+    public Mono<Void> eliminarSucursal(@PathVariable Long id) {
         return sucursalUseCase.eliminarSucursal(id);
     }
 }

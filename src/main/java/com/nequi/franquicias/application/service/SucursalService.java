@@ -20,7 +20,7 @@ public class SucursalService implements SucursalUseCase {
     private final FranquiciaRepository franquiciaRepository;
     
     @Override
-    public Mono<Sucursal> crearSucursal(String franquiciaId, Sucursal sucursal) {
+    public Mono<Sucursal> crearSucursal(Long franquiciaId, Sucursal sucursal) {
         return franquiciaRepository.findById(franquiciaId)
                 .flatMap(franquicia -> {
                     // Verificamos que la franquicia existe antes de crear la sucursal
@@ -34,17 +34,17 @@ public class SucursalService implements SucursalUseCase {
     }
     
     @Override
-    public Mono<Sucursal> obtenerSucursalPorId(String id) {
+    public Mono<Sucursal> obtenerSucursalPorId(Long id) {
         return sucursalRepository.findById(id);
     }
     
     @Override
-    public Flux<Sucursal> obtenerSucursalesPorFranquiciaId(String franquiciaId) {
+    public Flux<Sucursal> obtenerSucursalesPorFranquiciaId(Long franquiciaId) {
         return sucursalRepository.findByFranquiciaId(franquiciaId);
     }
     
     @Override
-    public Mono<Sucursal> actualizarSucursal(String id, Sucursal sucursal) {
+    public Mono<Sucursal> actualizarSucursal(Long id, Sucursal sucursal) {
         return sucursalRepository.findById(id)
                 .flatMap(sucursalExistente -> {
                     sucursal.setId(id);
@@ -53,7 +53,7 @@ public class SucursalService implements SucursalUseCase {
     }
     
     @Override
-    public Mono<Void> eliminarSucursal(String id) {
+    public Mono<Void> eliminarSucursal(Long id) {
         return sucursalRepository.deleteById(id);
     }
 }

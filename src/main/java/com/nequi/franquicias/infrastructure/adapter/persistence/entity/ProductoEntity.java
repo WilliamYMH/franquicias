@@ -19,7 +19,7 @@ import org.springframework.data.relational.core.mapping.Table;
 public class ProductoEntity {
     
     @Id
-    private String id;
+    private Long id;
     
     @Column("nombre")
     private String nombre;
@@ -28,5 +28,5 @@ public class ProductoEntity {
     private Integer stock;
     
     @Column("sucursal_id")
-    private String sucursalId;
+    private Long sucursalId;
 }

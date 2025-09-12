@@ -19,11 +19,11 @@ import org.springframework.data.relational.core.mapping.Table;
 public class SucursalEntity {
     
     @Id
-    private String id;
+    private Long id;
     
     @Column("nombre")
     private String nombre;
     
     @Column("franquicia_id")
-    private String franquiciaId;
+    private Long franquiciaId;
 }

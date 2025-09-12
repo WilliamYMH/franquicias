@@ -16,10 +16,10 @@ import lombok.NoArgsConstructor;
 public class SucursalUpdateDTO {
     
     @Null(message = "No se permite actualizar el ID")
-    private String id;
+    private Long id;
     
     private String nombre;
     
     @Null(message = "No se permite actualizar el ID de la franquicia")
-    private String franquiciaId;
+    private Long franquiciaId;
 }

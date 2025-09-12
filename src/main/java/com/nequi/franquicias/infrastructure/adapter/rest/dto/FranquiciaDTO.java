@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class FranquiciaDTO {
     
-    private String id;
+    private Long id;
     
     @NotBlank(message = "El nombre de la franquicia no puede estar vacío")
     private String nombre;

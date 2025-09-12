@@ -4,8 +4,6 @@ import com.nequi.franquicias.domain.model.Franquicia;
 import com.nequi.franquicias.infrastructure.adapter.persistence.entity.FranquiciaEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 /**
  * Mapeador para convertir entre entidades de dominio y entidades de persistencia de franquicias.
  */
@@ -20,7 +18,7 @@ public class FranquiciaMapper {
      */
     public FranquiciaEntity toEntity(Franquicia franquicia) {
         return FranquiciaEntity.builder()
-                .id(franquicia.getId() != null ? franquicia.getId() : UUID.randomUUID().toString())
+                .id(franquicia.getId())
                 .nombre(franquicia.getNombre())
                 .build();
     }

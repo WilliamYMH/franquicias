@@ -23,7 +23,7 @@ public interface FranquiciaUseCase {
      * @param id el ID de la franquicia
      * @return la franquicia encontrada o un Mono vacío si no existe
      */
-    Mono<Franquicia> obtenerFranquiciaPorId(String id);
+    Mono<Franquicia> obtenerFranquiciaPorId(Long id);
     
     /**
      * Obtiene todas las franquicias.
@@ -39,7 +39,7 @@ public interface FranquiciaUseCase {
      * @param franquicia la franquicia con los datos actualizados
      * @return la franquicia actualizada
      */
-    Mono<Franquicia> actualizarFranquicia(String id, Franquicia franquicia);
+    Mono<Franquicia> actualizarFranquicia(Long id, Franquicia franquicia);
     
     /**
      * Elimina una franquicia por su ID.
@@ -47,5 +47,5 @@ public interface FranquiciaUseCase {
      * @param id el ID de la franquicia a eliminar
      * @return un Mono que completa cuando la operación termina
      */
-    Mono<Void> eliminarFranquicia(String id);
+    Mono<Void> eliminarFranquicia(Long id);
 }

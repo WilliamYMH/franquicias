@@ -16,8 +16,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Sucursal {
-    private String id;
+    private Long id;
     private String nombre;
+    private Long franquiciaId;
     
     @Builder.Default
     private List<Producto> productos = new ArrayList<>();

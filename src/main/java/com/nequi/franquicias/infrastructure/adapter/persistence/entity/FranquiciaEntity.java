@@ -10,6 +10,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 /**
  * Entidad de persistencia para franquicias.
+ * El ID es de tipo Long y se genera automáticamente en la base de datos.
  */
 @Data
 @Builder
@@ -19,7 +20,7 @@ import org.springframework.data.relational.core.mapping.Table;
 public class FranquiciaEntity {
     
     @Id
-    private String id;
+    private Long id;
     
     @Column("nombre")
     private String nombre;

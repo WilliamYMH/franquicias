@@ -39,7 +39,7 @@ public class FranquiciaController {
     
     @GetMapping("/{id}")
     @Operation(summary = "Obtener una franquicia por su ID")
-    public Mono<FranquiciaDTO> obtenerFranquiciaPorId(@PathVariable String id) {
+    public Mono<FranquiciaDTO> obtenerFranquiciaPorId(@PathVariable Long id) {
         return franquiciaUseCase.obtenerFranquiciaPorId(id)
                 .map(mapper::toDTO);
     }
@@ -53,7 +53,7 @@ public class FranquiciaController {
     
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar una franquicia existente")
-    public Mono<FranquiciaDTO> actualizarFranquicia(@PathVariable String id, @Valid @RequestBody FranquiciaDTO franquiciaDTO) {
+    public Mono<FranquiciaDTO> actualizarFranquicia(@PathVariable Long id, @Valid @RequestBody FranquiciaDTO franquiciaDTO) {
         return Mono.just(franquiciaDTO)
                 .map(mapper::toDomain)
                 .flatMap(franquicia -> franquiciaUseCase.actualizarFranquicia(id, franquicia))
@@ -62,7 +62,7 @@ public class FranquiciaController {
     
     @PatchMapping("/{id}")
     @Operation(summary = "Actualizar parcialmente una franquicia existente")
-    public Mono<FranquiciaDTO> actualizarFranquiciaParcial(@PathVariable String id, @Valid @RequestBody FranquiciaUpdateDTO franquiciaUpdateDTO) {
+    public Mono<FranquiciaDTO> actualizarFranquiciaParcial(@PathVariable Long id, @Valid @RequestBody FranquiciaUpdateDTO franquiciaUpdateDTO) {
         return franquiciaUseCase.obtenerFranquiciaPorId(id)
                 .map(franquicia -> updateMapper.applyUpdate(franquiciaUpdateDTO, franquicia))
                 .flatMap(franquicia -> franquiciaUseCase.actualizarFranquicia(id, franquicia))
@@ -72,7 +72,7 @@ public class FranquiciaController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Eliminar una franquicia por su ID")
-    public Mono<Void> eliminarFranquicia(@PathVariable String id) {
+    public Mono<Void> eliminarFranquicia(@PathVariable Long id) {
         return franquiciaUseCase.eliminarFranquicia(id);
     }
 }

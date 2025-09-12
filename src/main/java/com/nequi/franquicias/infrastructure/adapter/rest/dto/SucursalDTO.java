@@ -18,12 +18,12 @@ import java.util.List;
 @AllArgsConstructor
 public class SucursalDTO {
     
-    private String id;
+    private Long id;
     
     @NotBlank(message = "El nombre de la sucursal no puede estar vacío")
     private String nombre;
     
-    private String franquiciaId;
+    private Long franquiciaId;
     
     @Builder.Default
     private List<ProductoDTO> productos = new ArrayList<>();

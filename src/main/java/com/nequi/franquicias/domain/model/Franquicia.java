@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Franquicia {
-    private String id;
+    private Long id;
     private String nombre;
     
     @Builder.Default

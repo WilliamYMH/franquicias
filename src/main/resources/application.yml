@@ -1,16 +1,23 @@
 spring:
   r2dbc:
-    url: r2dbc:h2:mem:///franquicias;DB_CLOSE_DELAY=-1
-    username: sa
+    url: r2dbc:mysql://localhost:3306/franquicias
+    username: root
     password: 
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+    properties:
+      # Configuración de pool de conexiones
+      initial-size: 5
+      max-size: 10
+      validation-query: SELECT 1
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
 
 logging:
   level:
     org.springframework.r2dbc: DEBUG
+    io.r2dbc.mysql: DEBUG
     com.nequi.franquicias: DEBUG
 
 springdoc:

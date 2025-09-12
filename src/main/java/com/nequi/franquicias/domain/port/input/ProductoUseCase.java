@@ -17,7 +17,7 @@ public interface ProductoUseCase {
      * @param producto el producto a crear
      * @return el producto creado
      */
-    Mono<Producto> crearProducto(String sucursalId, Producto producto);
+    Mono<Producto> crearProducto(Long sucursalId, Producto producto);
     
     /**
      * Obtiene un producto por su ID.
@@ -25,7 +25,7 @@ public interface ProductoUseCase {
      * @param id el ID del producto
      * @return el producto encontrado o un Mono vacío si no existe
      */
-    Mono<Producto> obtenerProductoPorId(String id);
+    Mono<Producto> obtenerProductoPorId(Long id);
     
     /**
      * Obtiene todos los productos de una sucursal.
@@ -33,7 +33,7 @@ public interface ProductoUseCase {
      * @param sucursalId el ID de la sucursal
      * @return un flujo de productos
      */
-    Flux<Producto> obtenerProductosPorSucursalId(String sucursalId);
+    Flux<Producto> obtenerProductosPorSucursalId(Long sucursalId);
     
     /**
      * Actualiza un producto existente.
@@ -42,7 +42,7 @@ public interface ProductoUseCase {
      * @param producto el producto con los datos actualizados
      * @return el producto actualizado
      */
-    Mono<Producto> actualizarProducto(String id, Producto producto);
+    Mono<Producto> actualizarProducto(Long id, Producto producto);
     
     /**
      * Actualiza el stock de un producto.
@@ -51,7 +51,7 @@ public interface ProductoUseCase {
      * @param cantidad la nueva cantidad de stock
      * @return el producto actualizado
      */
-    Mono<Producto> actualizarStockProducto(String id, Integer cantidad);
+    Mono<Producto> actualizarStockProducto(Long id, Integer cantidad);
     
     /**
      * Elimina un producto por su ID.
@@ -59,7 +59,7 @@ public interface ProductoUseCase {
      * @param id el ID del producto a eliminar
      * @return un Mono que completa cuando la operación termina
      */
-    Mono<Void> eliminarProducto(String id);
+    Mono<Void> eliminarProducto(Long id);
     
     /**
      * Obtiene el producto con más stock por cada sucursal de una franquicia.
@@ -67,5 +67,5 @@ public interface ProductoUseCase {
      * @param franquiciaId el ID de la franquicia
      * @return un flujo de productos con su sucursal asociada
      */
-    Flux<ProductoSucursal> obtenerProductoConMasStockPorSucursal(String franquiciaId);
+    Flux<ProductoSucursal> obtenerProductoConMasStockPorSucursal(Long franquiciaId);
 }

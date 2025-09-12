@@ -28,7 +28,7 @@ public class FranquiciaRepositoryAdapter implements FranquiciaRepository {
     }
     
     @Override
-    public Mono<Franquicia> findById(String id) {
+    public Mono<Franquicia> findById(Long id) {
         return repository.findById(id)
                 .map(mapper::toDomain);
     }
@@ -40,7 +40,7 @@ public class FranquiciaRepositoryAdapter implements FranquiciaRepository {
     }
     
     @Override
-    public Mono<Void> deleteById(String id) {
+    public Mono<Void> deleteById(Long id) {
         return repository.deleteById(id);
     }
 }

@@ -33,7 +33,7 @@ public class ProductoController {
     @PostMapping("/sucursal/{sucursalId}")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Crear un nuevo producto para una sucursal")
-    public Mono<ProductoDTO> crearProducto(@PathVariable String sucursalId, @Valid @RequestBody ProductoDTO productoDTO) {
+    public Mono<ProductoDTO> crearProducto(@PathVariable Long sucursalId, @Valid @RequestBody ProductoDTO productoDTO) {
         return Mono.just(productoDTO)
                 .map(mapper::toDomain)
                 .flatMap(producto -> productoUseCase.crearProducto(sucursalId, producto))
@@ -42,21 +42,21 @@ public class ProductoController {
     
     @GetMapping("/{id}")
     @Operation(summary = "Obtener un producto por su ID")
-    public Mono<ProductoDTO> obtenerProductoPorId(@PathVariable String id) {
+    public Mono<ProductoDTO> obtenerProductoPorId(@PathVariable Long id) {
         return productoUseCase.obtenerProductoPorId(id)
                 .map(mapper::toDTO);
     }
     
     @GetMapping("/sucursal/{sucursalId}")
     @Operation(summary = "Obtener todos los productos de una sucursal")
-    public Flux<ProductoDTO> obtenerProductosPorSucursalId(@PathVariable String sucursalId) {
+    public Flux<ProductoDTO> obtenerProductosPorSucursalId(@PathVariable Long sucursalId) {
         return productoUseCase.obtenerProductosPorSucursalId(sucursalId)
                 .map(mapper::toDTO);
     }
     
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar un producto existente")
-    public Mono<ProductoDTO> actualizarProducto(@PathVariable String id, @Valid @RequestBody ProductoDTO productoDTO) {
+    public Mono<ProductoDTO> actualizarProducto(@PathVariable Long id, @Valid @RequestBody ProductoDTO productoDTO) {
         return Mono.just(productoDTO)
                 .map(mapper::toDomain)
                 .flatMap(producto -> productoUseCase.actualizarProducto(id, producto))
@@ -65,7 +65,7 @@ public class ProductoController {
     
     @PatchMapping("/{id}")
     @Operation(summary = "Actualizar parcialmente un producto existente")
-    public Mono<ProductoDTO> actualizarProductoParcial(@PathVariable String id, @Valid @RequestBody ProductoUpdateDTO productoUpdateDTO) {
+    public Mono<ProductoDTO> actualizarProductoParcial(@PathVariable Long id, @Valid @RequestBody ProductoUpdateDTO productoUpdateDTO) {
         return productoUseCase.obtenerProductoPorId(id)
                 .map(producto -> updateMapper.applyUpdate(productoUpdateDTO, producto))
                 .flatMap(producto -> productoUseCase.actualizarProducto(id, producto))
@@ -74,7 +74,7 @@ public class ProductoController {
     
     @PatchMapping("/{id}/stock/{cantidad}")
     @Operation(summary = "Actualizar el stock de un producto")
-    public Mono<ProductoDTO> actualizarStockProducto(@PathVariable String id, @PathVariable Integer cantidad) {
+    public Mono<ProductoDTO> actualizarStockProducto(@PathVariable Long id, @PathVariable Integer cantidad) {
         return productoUseCase.actualizarStockProducto(id, cantidad)
                 .map(mapper::toDTO);
     }
@@ -82,13 +82,13 @@ public class ProductoController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Eliminar un producto por su ID")
-    public Mono<Void> eliminarProducto(@PathVariable String id) {
+    public Mono<Void> eliminarProducto(@PathVariable Long id) {
         return productoUseCase.eliminarProducto(id);
     }
     
     @GetMapping("/max-stock/franquicia/{franquiciaId}")
     @Operation(summary = "Obtener el producto con más stock por sucursal para una franquicia específica")
-    public Flux<ProductoSucursalDTO> obtenerProductoConMasStockPorSucursal(@PathVariable String franquiciaId) {
+    public Flux<ProductoSucursalDTO> obtenerProductoConMasStockPorSucursal(@PathVariable Long franquiciaId) {
         return productoUseCase.obtenerProductoConMasStockPorSucursal(franquiciaId)
                 .map(productoSucursalMapper::toDTO);
     }

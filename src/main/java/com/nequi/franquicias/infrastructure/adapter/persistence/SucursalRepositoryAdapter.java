@@ -22,13 +22,13 @@ public class SucursalRepositoryAdapter implements SucursalRepository {
     @Override
     public Mono<Sucursal> save(Sucursal sucursal) {
         return Mono.just(sucursal)
-                .map(s -> mapper.toEntity(s, s.getId()))
+                .map(s -> mapper.toEntity(s, s.getFranquiciaId()))
                 .flatMap(repository::save)
                 .map(mapper::toDomain);
     }
     
     @Override
-    public Mono<Sucursal> findById(String id) {
+    public Mono<Sucursal> findById(Long id) {
         return repository.findById(id)
                 .map(mapper::toDomain);
     }
@@ -40,13 +40,13 @@ public class SucursalRepositoryAdapter implements SucursalRepository {
     }
     
     @Override
-    public Flux<Sucursal> findByFranquiciaId(String franquiciaId) {
+    public Flux<Sucursal> findByFranquiciaId(Long franquiciaId) {
         return repository.findByFranquiciaId(franquiciaId)
                 .map(mapper::toDomain);
     }
     
     @Override
-    public Mono<Void> deleteById(String id) {
+    public Mono<Void> deleteById(Long id) {
         return repository.deleteById(id);
     }
 }

@@ -23,7 +23,7 @@ public interface SucursalRepository {
      * @param id el ID de la sucursal
      * @return la sucursal encontrada o un Mono vacío si no existe
      */
-    Mono<Sucursal> findById(String id);
+    Mono<Sucursal> findById(Long id);
     
     /**
      * Obtiene todas las sucursales.
@@ -38,7 +38,7 @@ public interface SucursalRepository {
      * @param franquiciaId el ID de la franquicia
      * @return un flujo de sucursales
      */
-    Flux<Sucursal> findByFranquiciaId(String franquiciaId);
+    Flux<Sucursal> findByFranquiciaId(Long franquiciaId);
     
     /**
      * Elimina una sucursal por su ID.
@@ -46,5 +46,5 @@ public interface SucursalRepository {
      * @param id el ID de la sucursal a eliminar
      * @return un Mono que completa cuando la operación termina
      */
-    Mono<Void> deleteById(String id);
+    Mono<Void> deleteById(Long id);
 }

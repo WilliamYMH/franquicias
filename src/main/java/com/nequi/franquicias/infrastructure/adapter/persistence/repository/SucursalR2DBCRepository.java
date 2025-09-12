@@ -9,7 +9,7 @@ import reactor.core.publisher.Flux;
  * Repositorio R2DBC para sucursales.
  */
 @Repository
-public interface SucursalR2DBCRepository extends R2dbcRepository<SucursalEntity, String> {
+public interface SucursalR2DBCRepository extends R2dbcRepository<SucursalEntity, Long> {
     
     /**
      * Busca sucursales por el ID de la franquicia.
@@ -17,5 +17,5 @@ public interface SucursalR2DBCRepository extends R2dbcRepository<SucursalEntity,
      * @param franquiciaId el ID de la franquicia
      * @return un flujo de sucursales
      */
-    Flux<SucursalEntity> findByFranquiciaId(String franquiciaId);
+    Flux<SucursalEntity> findByFranquiciaId(Long franquiciaId);
 }

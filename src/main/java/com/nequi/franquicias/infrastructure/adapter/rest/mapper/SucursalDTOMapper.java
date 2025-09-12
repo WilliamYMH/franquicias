@@ -20,6 +20,7 @@ public class SucursalDTOMapper {
         return SucursalDTO.builder()
                 .id(sucursal.getId())
                 .nombre(sucursal.getNombre())
+                .franquiciaId(sucursal.getFranquiciaId())
                 .build();
     }
     
@@ -33,6 +34,7 @@ public class SucursalDTOMapper {
         return Sucursal.builder()
                 .id(dto.getId())
                 .nombre(dto.getNombre())
+                .franquiciaId(dto.getFranquiciaId())
                 .build();
     }
 }

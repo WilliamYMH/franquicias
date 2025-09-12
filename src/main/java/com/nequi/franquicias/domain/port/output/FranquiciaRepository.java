@@ -23,7 +23,7 @@ public interface FranquiciaRepository {
      * @param id el ID de la franquicia
      * @return la franquicia encontrada o un Mono vacío si no existe
      */
-    Mono<Franquicia> findById(String id);
+    Mono<Franquicia> findById(Long id);
     
     /**
      * Obtiene todas las franquicias.
@@ -38,5 +38,5 @@ public interface FranquiciaRepository {
      * @param id el ID de la franquicia a eliminar
      * @return un Mono que completa cuando la operación termina
      */
-    Mono<Void> deleteById(String id);
+    Mono<Void> deleteById(Long id);
 }

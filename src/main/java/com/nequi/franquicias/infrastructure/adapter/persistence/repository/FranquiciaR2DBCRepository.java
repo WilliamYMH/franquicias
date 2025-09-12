@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * Repositorio R2DBC para franquicias.
  */
 @Repository
-public interface FranquiciaR2DBCRepository extends R2dbcRepository<FranquiciaEntity, String> {
+public interface FranquiciaR2DBCRepository extends R2dbcRepository<FranquiciaEntity, Long> {
     // No se necesitan métodos adicionales por ahora, ya que los métodos básicos
     // como findById, findAll, save, deleteById, etc. son proporcionados por R2dbcRepository
 }

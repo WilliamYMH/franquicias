@@ -23,7 +23,7 @@ public interface ProductoRepository {
      * @param id el ID del producto
      * @return el producto encontrado o un Mono vacío si no existe
      */
-    Mono<Producto> findById(String id);
+    Mono<Producto> findById(Long id);
     
     /**
      * Obtiene todos los productos.
@@ -38,7 +38,7 @@ public interface ProductoRepository {
      * @param sucursalId el ID de la sucursal
      * @return un flujo de productos
      */
-    Flux<Producto> findBySucursalId(String sucursalId);
+    Flux<Producto> findBySucursalId(Long sucursalId);
     
     /**
      * Elimina un producto por su ID.
@@ -46,5 +46,5 @@ public interface ProductoRepository {
      * @param id el ID del producto a eliminar
      * @return un Mono que completa cuando la operación termina
      */
-    Mono<Void> deleteById(String id);
+    Mono<Void> deleteById(Long id);
 }

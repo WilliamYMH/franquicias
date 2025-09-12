@@ -21,6 +21,7 @@ public class ProductoDTOMapper {
                 .id(producto.getId())
                 .nombre(producto.getNombre())
                 .stock(producto.getStock())
+                .sucursalId(producto.getSucursalId())
                 .build();
     }
     
@@ -35,6 +36,7 @@ public class ProductoDTOMapper {
                 .id(dto.getId())
                 .nombre(dto.getNombre())
                 .stock(dto.getStock())
+                .sucursalId(dto.getSucursalId())
                 .build();
     }
 }

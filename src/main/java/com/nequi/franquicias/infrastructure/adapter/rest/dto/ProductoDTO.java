@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductoDTO {
     
-    private String id;
+    private Long id;
     
     @NotBlank(message = "El nombre del producto no puede estar vacío")
     private String nombre;
@@ -26,5 +26,5 @@ public class ProductoDTO {
     @Min(value = 0, message = "El stock del producto no puede ser negativo")
     private Integer stock;
     
-    private String sucursalId;
+    private Long sucursalId;
 }

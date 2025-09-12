@@ -24,7 +24,7 @@ public class ProductoService implements ProductoUseCase {
     private final SucursalRepository sucursalRepository;
     
     @Override
-    public Mono<Producto> crearProducto(String sucursalId, Producto producto) {
+    public Mono<Producto> crearProducto(Long sucursalId, Producto producto) {
         return sucursalRepository.findById(sucursalId)
                 .flatMap(sucursal -> {
                     // Verificamos que la sucursal existe antes de crear el producto
@@ -38,17 +38,17 @@ public class ProductoService implements ProductoUseCase {
     }
     
     @Override
-    public Mono<Producto> obtenerProductoPorId(String id) {
+    public Mono<Producto> obtenerProductoPorId(Long id) {
         return productoRepository.findById(id);
     }
     
     @Override
-    public Flux<Producto> obtenerProductosPorSucursalId(String sucursalId) {
+    public Flux<Producto> obtenerProductosPorSucursalId(Long sucursalId) {
         return productoRepository.findBySucursalId(sucursalId);
     }
     
     @Override
-    public Mono<Producto> actualizarProducto(String id, Producto producto) {
+    public Mono<Producto> actualizarProducto(Long id, Producto producto) {
         return productoRepository.findById(id)
                 .flatMap(productoExistente -> {
                     producto.setId(id);
@@ -57,7 +57,7 @@ public class ProductoService implements ProductoUseCase {
     }
     
     @Override
-    public Mono<Producto> actualizarStockProducto(String id, Integer cantidad) {
+    public Mono<Producto> actualizarStockProducto(Long id, Integer cantidad) {
         return productoRepository.findById(id)
                 .flatMap(producto -> {
                     producto.setStock(cantidad);
@@ -66,12 +66,12 @@ public class ProductoService implements ProductoUseCase {
     }
     
     @Override
-    public Mono<Void> eliminarProducto(String id) {
+    public Mono<Void> eliminarProducto(Long id) {
         return productoRepository.deleteById(id);
     }
     
     @Override
-    public Flux<ProductoSucursal> obtenerProductoConMasStockPorSucursal(String franquiciaId) {
+    public Flux<ProductoSucursal> obtenerProductoConMasStockPorSucursal(Long franquiciaId) {
         return sucursalRepository.findByFranquiciaId(franquiciaId)
                 .flatMap(sucursal -> {
                     return productoRepository.findBySucursalId(sucursal.getId())

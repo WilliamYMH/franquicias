@@ -22,13 +22,13 @@ public class ProductoRepositoryAdapter implements ProductoRepository {
     @Override
     public Mono<Producto> save(Producto producto) {
         return Mono.just(producto)
-                .map(p -> mapper.toEntity(p, p.getId()))
+                .map(p -> mapper.toEntity(p, p.getSucursalId()))
                 .flatMap(repository::save)
                 .map(mapper::toDomain);
     }
     
     @Override
-    public Mono<Producto> findById(String id) {
+    public Mono<Producto> findById(Long id) {
         return repository.findById(id)
                 .map(mapper::toDomain);
     }
@@ -40,13 +40,13 @@ public class ProductoRepositoryAdapter implements ProductoRepository {
     }
     
     @Override
-    public Flux<Producto> findBySucursalId(String sucursalId) {
+    public Flux<Producto> findBySucursalId(Long sucursalId) {
         return repository.findBySucursalId(sucursalId)
                 .map(mapper::toDomain);
     }
     
     @Override
-    public Mono<Void> deleteById(String id) {
+    public Mono<Void> deleteById(Long id) {
         return repository.deleteById(id);
     }
 }

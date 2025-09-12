@@ -4,8 +4,6 @@ import com.nequi.franquicias.domain.model.Producto;
 import com.nequi.franquicias.infrastructure.adapter.persistence.entity.ProductoEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 /**
  * Mapeador para convertir entre entidades de dominio y entidades de persistencia de productos.
  */
@@ -19,9 +17,9 @@ public class ProductoMapper {
      * @param sucursalId ID de la sucursal a la que pertenece el producto
      * @return entidad de persistencia
      */
-    public ProductoEntity toEntity(Producto producto, String sucursalId) {
+    public ProductoEntity toEntity(Producto producto, Long sucursalId) {
         return ProductoEntity.builder()
-                .id(producto.getId() != null ? producto.getId() : UUID.randomUUID().toString())
+                .id(producto.getId())
                 .nombre(producto.getNombre())
                 .stock(producto.getStock())
                 .sucursalId(sucursalId)
@@ -39,6 +37,7 @@ public class ProductoMapper {
                 .id(entity.getId())
                 .nombre(entity.getNombre())
                 .stock(entity.getStock())
+                .sucursalId(entity.getSucursalId())
                 .build();
     }
 }

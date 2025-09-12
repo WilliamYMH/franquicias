@@ -23,7 +23,7 @@ public class FranquiciaService implements FranquiciaUseCase {
     }
     
     @Override
-    public Mono<Franquicia> obtenerFranquiciaPorId(String id) {
+    public Mono<Franquicia> obtenerFranquiciaPorId(Long id) {
         return franquiciaRepository.findById(id);
     }
     
@@ -33,7 +33,7 @@ public class FranquiciaService implements FranquiciaUseCase {
     }
     
     @Override
-    public Mono<Franquicia> actualizarFranquicia(String id, Franquicia franquicia) {
+    public Mono<Franquicia> actualizarFranquicia(Long id, Franquicia franquicia) {
         return franquiciaRepository.findById(id)
                 .flatMap(franquiciaExistente -> {
                     franquicia.setId(id);
@@ -42,7 +42,7 @@ public class FranquiciaService implements FranquiciaUseCase {
     }
     
     @Override
-    public Mono<Void> eliminarFranquicia(String id) {
+    public Mono<Void> eliminarFranquicia(Long id) {
         return franquiciaRepository.deleteById(id);
     }
 }
