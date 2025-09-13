@@ -58,15 +58,6 @@ public class ProductoService implements ProductoUseCase {
     }
     
     @Override
-    public Mono<Producto> actualizarStockProducto(Long id, Integer cantidad) {
-        return productoRepository.findById(id)
-                .flatMap(producto -> {
-                    producto.setStock(cantidad);
-                    return productoRepository.save(producto);
-                });
-    }
-    
-    @Override
     public Mono<Void> eliminarProducto(Long id) {
         return productoRepository.deleteById(id);
     }

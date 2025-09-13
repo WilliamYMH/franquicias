@@ -2,10 +2,10 @@ package com.nequi.franquicias.infrastructure.adapter.rest.controller;
 
 import com.nequi.franquicias.domain.port.input.ProductoUseCase;
 import com.nequi.franquicias.infrastructure.adapter.rest.dto.ProductoDTO;
-import com.nequi.franquicias.infrastructure.adapter.rest.dto.ProductoSucursalDTO;
+import com.nequi.franquicias.infrastructure.adapter.rest.dto.ProductoSucursalSummaryDTO;
 import com.nequi.franquicias.infrastructure.adapter.rest.dto.ProductoUpdateDTO;
 import com.nequi.franquicias.infrastructure.adapter.rest.mapper.ProductoDTOMapper;
-import com.nequi.franquicias.infrastructure.adapter.rest.mapper.ProductoSucursalDTOMapper;
+import com.nequi.franquicias.infrastructure.adapter.rest.mapper.ProductoSucursalSummaryDTOMapper;
 import com.nequi.franquicias.infrastructure.adapter.rest.mapper.ProductoUpdateDTOMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,7 +27,7 @@ public class ProductoController {
     
     private final ProductoUseCase productoUseCase;
     private final ProductoDTOMapper mapper;
-    private final ProductoSucursalDTOMapper productoSucursalMapper;
+    private final ProductoSucursalSummaryDTOMapper productoSucursalMapper;
     private final ProductoUpdateDTOMapper updateMapper;
     
     @PostMapping("/sucursal/{sucursalId}")
@@ -55,18 +55,11 @@ public class ProductoController {
     }
 
     @PatchMapping("/{id}")
-    @Operation(summary = "Actualizar parcialmente un producto existente")
-    public Mono<ProductoDTO> actualizarProductoParcial(@PathVariable Long id, @Valid @RequestBody ProductoUpdateDTO productoUpdateDTO) {
+    @Operation(summary = "Actualizar cualquier atributo de un producto")
+    public Mono<ProductoDTO> actualizarCualquierAtributo(@PathVariable Long id, @Valid @RequestBody ProductoUpdateDTO productoUpdateDTO) {
         return productoUseCase.obtenerProductoPorId(id)
                 .map(producto -> updateMapper.applyUpdate(productoUpdateDTO, producto))
                 .flatMap(producto -> productoUseCase.actualizarProducto(id, producto))
-                .map(mapper::toDTO);
-    }
-    
-    @PatchMapping("/{id}/stock/{cantidad}")
-    @Operation(summary = "Actualizar el stock de un producto")
-    public Mono<ProductoDTO> actualizarStockProducto(@PathVariable Long id, @PathVariable Integer cantidad) {
-        return productoUseCase.actualizarStockProducto(id, cantidad)
                 .map(mapper::toDTO);
     }
     
@@ -79,7 +72,7 @@ public class ProductoController {
     
     @GetMapping("/max-stock/franquicia/{franquiciaId}")
     @Operation(summary = "Obtener el producto con más stock por sucursal para una franquicia específica")
-    public Flux<ProductoSucursalDTO> obtenerProductoConMasStockPorSucursal(@PathVariable Long franquiciaId) {
+    public Flux<ProductoSucursalSummaryDTO> obtenerProductoConMasStockPorSucursal(@PathVariable Long franquiciaId) {
         return productoUseCase.obtenerProductoConMasStockPorSucursal(franquiciaId)
                 .map(productoSucursalMapper::toDTO);
     }

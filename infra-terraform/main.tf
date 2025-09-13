@@ -73,10 +73,10 @@ resource "aws_security_group" "ec2_sg" {
     cidr_blocks = [var.allowed_ssh_cidr]
   }
 
-  # App HTTP
+  # App HTTP on port 80 (public)
   ingress {
-    from_port   = var.app_port
-    to_port     = var.app_port
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -197,7 +197,7 @@ resource "aws_instance" "app" {
                   image: ${var.docker_image}
                   container_name: franquicias-app
                   ports:
-                    - "${var.app_port}:${var.app_port}"
+                    - "80:${var.container_port}"
                   environment:
                     - SPRING_PROFILES_ACTIVE="prod"
                     - SPRING_R2DBC_URL="r2dbc:mysql://${aws_db_instance.mysql.endpoint}/${aws_db_instance.mysql.db_name}"

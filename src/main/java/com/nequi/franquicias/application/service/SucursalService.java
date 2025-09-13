@@ -3,7 +3,7 @@ package com.nequi.franquicias.application.service;
 import com.nequi.franquicias.domain.model.Sucursal;
 import com.nequi.franquicias.domain.port.input.SucursalUseCase;
 import com.nequi.franquicias.domain.port.output.FranquiciaRepository;
-import com.nequi.franquicias.domain.port.output.ProductoRepository;
+import com.nequi.franquicias.domain.port.input.ProductoUseCase;
 import com.nequi.franquicias.domain.port.output.SucursalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class SucursalService implements SucursalUseCase {
     
     private final SucursalRepository sucursalRepository;
     private final FranquiciaRepository franquiciaRepository;
-    private final ProductoRepository productoRepository;
+    private final ProductoUseCase productoUseCase;
     
     @Override
     public Mono<Sucursal> crearSucursal(Long franquiciaId, Sucursal sucursal) {
@@ -41,7 +41,7 @@ public class SucursalService implements SucursalUseCase {
         return sucursalRepository.findById(id)
                 .flatMap(sucursal -> {
                     // Cargamos los productos asociados a la sucursal
-                    return productoRepository.findBySucursalId(sucursal.getId())
+                    return productoUseCase.obtenerProductosPorSucursalId(sucursal.getId())
                             .collectList()
                             .map(productos -> {
                                 sucursal.setProductos(productos);
@@ -52,7 +52,15 @@ public class SucursalService implements SucursalUseCase {
     
     @Override
     public Flux<Sucursal> obtenerSucursalesPorFranquiciaId(Long franquiciaId) {
-        return sucursalRepository.findByFranquiciaId(franquiciaId);
+        return sucursalRepository.findByFranquiciaId(franquiciaId)
+                .flatMap(sucursal ->
+                        productoUseCase.obtenerProductosPorSucursalId(sucursal.getId())
+                                .collectList()
+                                .map(productos -> {
+                                    sucursal.setProductos(productos);
+                                    return sucursal;
+                                })
+                );
     }
     
     @Override

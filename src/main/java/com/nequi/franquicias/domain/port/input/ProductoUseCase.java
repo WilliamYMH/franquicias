@@ -45,15 +45,6 @@ public interface ProductoUseCase {
     Mono<Producto> actualizarProducto(Long id, Producto producto);
     
     /**
-     * Actualiza el stock de un producto.
-     *
-     * @param id el ID del producto
-     * @param cantidad la nueva cantidad de stock
-     * @return el producto actualizado
-     */
-    Mono<Producto> actualizarStockProducto(Long id, Integer cantidad);
-    
-    /**
      * Elimina un producto por su ID.
      *
      * @param id el ID del producto a eliminar

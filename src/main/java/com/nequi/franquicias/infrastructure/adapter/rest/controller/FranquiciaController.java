@@ -52,8 +52,8 @@ public class FranquiciaController {
     }
 
     @PatchMapping("/{id}")
-    @Operation(summary = "Actualizar parcialmente una franquicia existente")
-    public Mono<FranquiciaDTO> actualizarFranquiciaParcial(@PathVariable Long id, @Valid @RequestBody FranquiciaUpdateDTO franquiciaUpdateDTO) {
+    @Operation(summary = "Actualizar cualquier atributo de una franquicia")
+    public Mono<FranquiciaDTO> actualizarCualquierAtributo(@PathVariable Long id, @Valid @RequestBody FranquiciaUpdateDTO franquiciaUpdateDTO) {
         return franquiciaUseCase.obtenerFranquiciaPorId(id)
                 .map(franquicia -> updateMapper.applyUpdate(franquiciaUpdateDTO, franquicia))
                 .flatMap(franquicia -> franquiciaUseCase.actualizarFranquicia(id, franquicia))

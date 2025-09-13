@@ -43,3 +43,9 @@ variable "aws_profile" {
   type        = string
   default     = "franquicias"
 }
+
+variable "container_port" {
+  description = "Internal container port where the Spring app listens"
+  type        = number
+  default     = 8080
+}

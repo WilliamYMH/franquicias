@@ -2,8 +2,8 @@ package com.nequi.franquicias.application.service;
 
 import com.nequi.franquicias.domain.model.Franquicia;
 import com.nequi.franquicias.domain.port.input.FranquiciaUseCase;
+import com.nequi.franquicias.domain.port.input.SucursalUseCase;
 import com.nequi.franquicias.domain.port.output.FranquiciaRepository;
-import com.nequi.franquicias.domain.port.output.SucursalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 public class FranquiciaService implements FranquiciaUseCase {
     
     private final FranquiciaRepository franquiciaRepository;
-    private final SucursalRepository sucursalRepository;
+    private final SucursalUseCase sucursalUseCase;
     
     @Override
     public Mono<Franquicia> crearFranquicia(Franquicia franquicia) {
@@ -27,20 +27,27 @@ public class FranquiciaService implements FranquiciaUseCase {
     @Override
     public Mono<Franquicia> obtenerFranquiciaPorId(Long id) {
         return franquiciaRepository.findById(id)
-                .flatMap(franquicia -> {
-                    // Cargamos las sucursales asociadas a la franquicia
-                    return sucursalRepository.findByFranquiciaId(franquicia.getId())
-                            .collectList()
-                            .map(sucursales -> {
-                                franquicia.setSucursales(sucursales);
-                                return franquicia;
-                            });
-                });
+                .flatMap(franquicia ->
+                        sucursalUseCase.obtenerSucursalesPorFranquiciaId(franquicia.getId())
+                                .collectList()
+                                .map(sucursales -> {
+                                    franquicia.setSucursales(sucursales);
+                                    return franquicia;
+                                })
+                );
     }
     
     @Override
     public Flux<Franquicia> obtenerTodasLasFranquicias() {
-        return franquiciaRepository.findAll();
+        return franquiciaRepository.findAll()
+                .flatMap(franquicia ->
+                        sucursalUseCase.obtenerSucursalesPorFranquiciaId(franquicia.getId())
+                                .collectList()
+                                .map(sucursales -> {
+                                    franquicia.setSucursales(sucursales);
+                                    return franquicia;
+                                })
+                );
     }
     
     @Override

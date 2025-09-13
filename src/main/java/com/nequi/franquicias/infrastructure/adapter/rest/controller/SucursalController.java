@@ -52,8 +52,8 @@ public class SucursalController {
     }
 
     @PatchMapping("/{id}")
-    @Operation(summary = "Actualizar parcialmente una sucursal existente")
-    public Mono<SucursalDTO> actualizarSucursalParcial(@PathVariable Long id, @Valid @RequestBody SucursalUpdateDTO sucursalUpdateDTO) {
+    @Operation(summary = "Actualizar cualquier atributo de una sucursal")
+    public Mono<SucursalDTO> actualizarCualquierAtributo(@PathVariable Long id, @Valid @RequestBody SucursalUpdateDTO sucursalUpdateDTO) {
         return sucursalUseCase.obtenerSucursalPorId(id)
                 .map(sucursal -> updateMapper.applyUpdate(sucursalUpdateDTO, sucursal))
                 .flatMap(sucursal -> sucursalUseCase.actualizarSucursal(id, sucursal))
