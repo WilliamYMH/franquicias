@@ -162,6 +162,7 @@ resource "aws_instance" "app" {
   vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
   key_name                    = var.key_name
   associate_public_ip_address = true
+  depends_on                  = [aws_db_instance.mysql]
 
   user_data = <<-EOF
               #!/bin/bash
@@ -176,19 +177,32 @@ resource "aws_instance" "app" {
               curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
               chmod +x /usr/local/bin/docker-compose
 
+              # Esperar a que RDS (MySQL) esté disponible en el puerto 3306
+              DB_HOST="${aws_db_instance.mysql.endpoint}"
+              echo "Esperando a que MySQL en ${aws_db_instance.mysql.endpoint}:3306 esté disponible..."
+              for i in {1..60}; do
+                if bash -c "</dev/tcp/${aws_db_instance.mysql.endpoint}/3306" >/dev/null 2>&1; then
+                  echo "MySQL alcanzable. Continuando..."
+                  break
+                fi
+                echo "Intento $i/60: MySQL aún no disponible, reintentando en 5s..."
+                sleep 5
+              done
+
               cat > /home/ec2-user/docker-compose.yml <<'EOL'
               version: '3.8'
               services:
                 app:
+                  platform: linux/amd64
                   image: ${var.docker_image}
                   container_name: franquicias-app
                   ports:
                     - "${var.app_port}:${var.app_port}"
                   environment:
-                    - SPRING_PROFILES_ACTIVE=prod
-                    - SPRING_R2DBC_URL=r2dbc:mysql://${aws_db_instance.mysql.endpoint}/${aws_db_instance.mysql.db_name}
-                    - SPRING_R2DBC_USERNAME=${var.db_username}
-                    - SPRING_R2DBC_PASSWORD=${var.db_password}
+                    - SPRING_PROFILES_ACTIVE="prod"
+                    - SPRING_R2DBC_URL="r2dbc:mysql://${aws_db_instance.mysql.endpoint}/${aws_db_instance.mysql.db_name}"
+                    - SPRING_R2DBC_USERNAME="${var.db_username}"
+                    - SPRING_R2DBC_PASSWORD="${var.db_password}"
                   restart: unless-stopped
               EOL
 
