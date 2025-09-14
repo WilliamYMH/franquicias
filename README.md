@@ -22,6 +22,20 @@ La aplicación sigue una arquitectura hexagonal con las siguientes capas:
 - **Aplicación**: Contiene los casos de uso (servicios) que implementan la lógica de negocio
 - **Infraestructura**: Contiene los adaptadores que conectan con el mundo exterior (REST, base de datos, etc.)
 
+## Arquitectura en la nube
+
+![Arquitectura en la nube](docs/architecture/cloud.png)
+
+Despliegue en AWS con una VPC, subredes públicas y privadas, Internet Gateway, tablas de ruteo y Security Groups. La aplicación corre en una instancia EC2, con base de datos MySQL en RDS (subred privada). El acceso público a la API se expone vía la instancia EC2.
+
+Ambiente desplegado en: http://ec2-34-207-124-253.compute-1.amazonaws.com:8080/v3/swagger-ui/index.html
+
+## Arquitectura de la aplicación
+
+![Arquitectura de la aplicación](docs/architecture/app.svg)
+
+Arquitectura hexagonal: el núcleo de dominio define puertos de entrada y salida; la capa de aplicación implementa casos de uso/servicios; los adaptadores inbound (REST controllers, mappers) y outbound (adapters R2DBC hacia MySQL) se ubican en infraestructura. El diagrama muestra el dominio centrado, con “Input Ports” y “Output Ports” agrupados, y un flujo mínimo ilustrativo.
+
 ## Modelo de Datos
 
 - **Franquicia**: Entidad principal que contiene un nombre y una lista de sucursales

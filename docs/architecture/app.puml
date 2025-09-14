@@ -1,0 +1,119 @@
+@startuml
+!include ./vendor/C4.puml
+!include ./vendor/C4_Component.puml
+
+' Layout y estilos
+LAYOUT_LEFT_RIGHT()
+HIDE_STEREOTYPE()
+
+' Tags y estilos sutiles por capa
+AddElementTag("inbound", "#FFF8DC", "", "transparent")
+AddElementTag("core",    "#F0FFF0", "", "transparent")
+AddElementTag("outbound","#F0F8FF", "", "transparent")
+AddElementTag("app",     "#FFE9A8", "", "transparent")
+AddElementTag("domain",  "#F7C7C7", "", "transparent")
+AddElementTag("spacer",  "transparent", "", "transparent", "", "", "", "", "", "", SolidLine(), "0")
+
+' Boundary tag for invisible group boxes
+AddBoundaryTag("group", "transparent", "", "transparent", "", RoundedBoxShape(), "", "", "", "", SolidLine(), "0")
+AddElementTag("textonly", "transparent", "", "transparent")
+AddBoundaryTag("group_dotted", "transparent", "", "#AAAAAA", "", RoundedBoxShape(), "", "", "", "", DottedLine(), "1")
+
+' Boundary del Core con forma octogonal (ocho lados)
+AddBoundaryTag("hex_core", "", "", "", "", EightSidedShape())
+' Boundaries de capas externas con forma octogonal y color sutil
+AddBoundaryTag("hex_infra",  "#E6F4EA", "", "#2E8B57", "", EightSidedShape(), "", "", "", "", SolidLine(), "2")
+AddBoundaryTag("hex_app",    "#FFF1CC", "", "transparent", "", EightSidedShape(), "", "", "", "", SolidLine(), "0")
+AddBoundaryTag("hex_domain", "#F8D3D3", "", "transparent", "", EightSidedShape(), "", "", "", "", SolidLine(), "0")
+
+'
+
+Boundary(infrastructure, "INFRASTRUCTURE", "", "hex_infra") {
+
+      ' Adaptadores primarios (inbound)
+      Boundary(inbound, "Inbound Adapters", "", "group_dotted") {
+        Component(c_f, "FranquiciaController", "REST Controller", "Exposición de endpoints", "", "inbound")
+        Component(c_s, "SucursalController", "REST Controller", "Exposición de endpoints", "", "inbound")
+        Component(c_p, "ProductoController", "REST Controller", "Exposición de endpoints", "", "inbound")
+        Component(mappers, "DTO Mappers", "Mapper", "Mapea DTO ↔ Dominio", "", "inbound")
+      }
+      ' note removed to reduce visual lines
+
+      ' Capa de aplicación (use cases, puertos)
+      Boundary(application, "APPLICATION", "", "hex_app") {
+        Component(s_f, "FranquiciaService", "Application Service", "Implementa casos de uso", "", "app")
+        Component(s_s, "SucursalService", "Application Service", "Implementa casos de uso", "", "app")
+        Component(s_p, "ProductoService", "Application Service", "Implementa casos de uso", "", "app")
+
+        ' Núcleo de dominio dentro de la aplicación
+        Boundary(domain, "DOMAIN", "", "hex_domain") {
+          ' Puertos de entrada agrupados (línea punteada)
+          Boundary(input_ports, "Input Ports", "", "group_dotted") {
+            Component(port_in_f, "FranquiciaUseCase", "Input Port", "Puerto de entrada", "", "domain")
+            Component(port_in_s, "SucursalUseCase", "Input Port", "Puerto de entrada", "", "domain")
+            Component(port_in_p, "ProductoUseCase", "Input Port", "Puerto de entrada", "", "domain")
+          }
+
+          ' Modelo de dominio al centro
+          Component(domain_model, "Domain Model", "Entities / Value Objects", "Modelo del dominio", "", "domain")
+
+          ' Puertos de salida agrupados (línea punteada)
+          Boundary(output_ports, "Output Ports", "", "group_dotted") {
+            Component(port_out_f, "FranquiciaRepository", "Output Port", "Puerto de salida", "", "domain")
+            Component(port_out_s, "SucursalRepository", "Output Port", "Puerto de salida", "", "domain")
+            Component(port_out_p, "ProductoRepository", "Output Port", "Puerto de salida", "", "domain")
+          }
+
+          ' Alinear verticalmente: Input Ports arriba, Output Ports abajo del domain model (líneas ocultas)
+          Lay_Up(input_ports, domain_model)
+          Lay_Down(domain_model, output_ports)
+
+          ' Espaciadores invisibles para ampliar el hexágono del dominio
+          rectangle "<size:0>.</size>" <<spacer>> as dom_pad_top
+          rectangle "<size:0>.</size>" <<spacer>> as dom_pad_bottom
+          rectangle "<size:0>.</size>" <<spacer>> as dom_pad_left
+          rectangle "<size:0>.</size>" <<spacer>> as dom_pad_right
+        }
+
+        ' Espaciadores de la capa de aplicación para centrar el dominio
+        rectangle "<size:0>.</size>" <<spacer>> as app_pad_top
+        rectangle "<size:0>.</size>" <<spacer>> as app_pad_bottom
+        rectangle "<size:0>.</size>" <<spacer>> as app_pad_left
+        rectangle "<size:0>.</size>" <<spacer>> as app_pad_right
+      }
+
+      ' Adaptadores secundarios (outbound)
+      Boundary(outbound, "Outbound Adapters", "", "group_dotted") {
+        Component(a_f, "FranquiciaR2DBCAdapter", "R2DBC Adapter", "Implementa puerto de salida", "", "outbound")
+        Component(a_s, "SucursalR2DBCAdapter", "R2DBC Adapter", "Implementa puerto de salida", "", "outbound")
+        Component(a_p, "ProductoR2DBCAdapter", "R2DBC Adapter", "Implementa puerto de salida", "", "outbound")
+      }
+      ' note removed to reduce visual lines
+
+      ' Espaciadores invisibles para ampliar el hexágono de infraestructura y aplicación
+      rectangle "<size:0>.</size>" <<spacer>> as infra_pad_top
+      rectangle "<size:0>.</size>" <<spacer>> as infra_pad_bottom
+      rectangle "<size:0>.</size>" <<spacer>> as infra_pad_left
+      rectangle "<size:0>.</size>" <<spacer>> as infra_pad_right
+      
+      ' Colocar inbound y outbound juntos a la derecha del diagrama
+      Lay_Right(application, inbound)
+      Lay_Right(inbound, outbound)
+      Lay_Distance(inbound, outbound, 0)
+}
+
+
+
+' Flujo mínimo didáctico (línea punteada fina, sin texto)
+AddRelTag("flow", "", "#AAAAAA", DottedLine(), "", "", "", "", "1")
+Rel(c_f, port_in_f, "", "", "", "", "flow")
+Rel(port_in_f, s_f, "", "", "", "", "flow")
+Rel(s_f, port_out_f, "", "", "", "", "flow")
+Rel(port_out_f, a_f, "", "", "", "", "flow")
+
+' Posicionar etiquetas internas sin líneas visibles
+Lay_Up(lbl_input_ports, port_in_f)
+Lay_Down(lbl_output_ports, port_out_f)
+
+
+@enduml
