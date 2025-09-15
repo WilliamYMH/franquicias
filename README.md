@@ -1,6 +1,42 @@
+### Prueba técnica Líder técnico Full Stack en Nequi 💜
 # API de Franquicias
 
 API RESTful para la gestión de franquicias, sucursales y productos, desarrollada con Spring Boot, WebFlux (programación reactiva) y arquitectura hexagonal.
+
+## Criterios de Aceptación
+
+- [x] El proyecto debe ser desarrollado en Spring Boot.
+- [x] Exponer endpoint para agregar una nueva franquicia.
+- [x] Exponer endpoint para agregar una nueva sucursal a una franquicia.
+- [x] Exponer endpoint para agregar un nuevo producto a una sucursal.
+- [x] Exponer endpoint para eliminar un nuevo producto a una sucursal.
+- [x] Exponer endpoint para modificar el stock de un producto.
+- [x] Exponer endpoint que permita mostrar cuál es el producto que más stock tiene por sucursal para una franquicia puntual. Debe retornar un listado de productos que indique a qué sucursal pertenece.
+- [x] Utilizar sistemas de persistencia de datos (MySQL) en un proveedor de Nube.
+
+**Puntos extra**
+
+- [x] Plus: la aplicación se empaqueta con Docker.
+- [x] Plus: programación funcional/reactiva (Spring WebFlux).
+- [x] Plus: endpoint para actualizar el nombre de una franquicia.
+- [x] Plus: endpoint para actualizar el nombre de una sucursal.
+- [x] Plus: endpoint para actualizar el nombre de un producto.
+- [x] Plus: la persistencia de datos se aprovisiona con Infraestructura como Código (Terraform).
+- [x] Plus: toda la solución se despliega en la nube.
+
+## Tabla de contenido
+
+- [Arquitectura en la nube](#arquitectura-en-la-nube)
+- [Arquitectura de la aplicación](#arquitectura-de-la-aplicación)
+- [Comandos](#comandos)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Modelo de Datos](#modelo-de-datos)
+- [Requisitos](#requisitos)
+- [Ejecución](#ejecución)
+- [Documentación de la API](#documentación-de-la-api)
+- [Endpoints](#endpoints)
+- [Ejemplos de Uso](#ejemplos-de-uso)
+- [Base de datos MySQL](#base-de-datos-mysql)
 
 ## Características
 
@@ -11,7 +47,6 @@ API RESTful para la gestión de franquicias, sucursales y productos, desarrollad
 - Clean Code
 - Base de datos MySQL
 - Documentación con OpenAPI/Swagger
-- Actualizaciones parciales de recursos
 - Dockerización para fácil despliegue
 
 ## Estructura del Proyecto
@@ -28,13 +63,18 @@ La aplicación sigue una arquitectura hexagonal con las siguientes capas:
 
 Despliegue en AWS con una VPC, subredes públicas y privadas, Internet Gateway, tablas de ruteo y Security Groups. La aplicación corre en una instancia EC2, con base de datos MySQL en RDS (subred privada). El acceso público a la API se expone vía la instancia EC2.
 
-Ambiente desplegado en: http://ec2-34-207-124-253.compute-1.amazonaws.com:8080/v3/swagger-ui/index.html
+Ambiente desplegado en: http://ec2-3-83-12-29.compute-1.amazonaws.com/swagger-ui/index.html#/
 
 ## Arquitectura de la aplicación
 
 ![Arquitectura de la aplicación](docs/architecture/app.svg)
 
 Arquitectura hexagonal: el núcleo de dominio define puertos de entrada y salida; la capa de aplicación implementa casos de uso/servicios; los adaptadores inbound (REST controllers, mappers) y outbound (adapters R2DBC hacia MySQL) se ubican en infraestructura. El diagrama muestra el dominio centrado, con “Input Ports” y “Output Ports” agrupados, y un flujo mínimo ilustrativo.
+
+## Comandos
+
+- [Comandos de AWS](docs/aws_commands.md)
+- [Comandos de Terraform](docs/terraform_commands.md)
 
 ## Modelo de Datos
 
@@ -123,7 +163,6 @@ La documentación de la API está disponible en:
 | GET | `/api/productos/{id}` | Obtener un producto por su ID |
 | GET | `/api/productos/sucursal/{sucursalId}` | Obtener todos los productos de una sucursal |
 | PATCH | `/api/productos/{id}` | Actualizar parcialmente un producto existente (solo los campos proporcionados) |
-| PATCH | `/api/productos/{id}/stock/{cantidad}` | Actualizar específicamente el stock de un producto |
 | GET | `/api/productos/max-stock/franquicia/{franquiciaId}` | Obtener el producto con más stock por sucursal para una franquicia específica |
 | DELETE | `/api/productos/{id}` | Eliminar un producto |
 
