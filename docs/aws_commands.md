@@ -153,6 +153,8 @@ API Docs:    http://<APP_PUBLIC_IP>:8080/api-docs
 ## 8) Comandos útiles de diagnóstico (opcionales)
 
 ```bash
+# Ver logs en la ec2
+docker logs --tail 400 franquicias-app
 # Ver tipos de instancia EC2 elegibles para Free Tier en la región
 aws ec2 describe-instance-types \
   --region us-east-1 \

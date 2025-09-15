@@ -199,10 +199,10 @@ resource "aws_instance" "app" {
                   ports:
                     - "80:${var.container_port}"
                   environment:
-                    - SPRING_PROFILES_ACTIVE="prod"
-                    - SPRING_R2DBC_URL="r2dbc:mysql://${aws_db_instance.mysql.endpoint}/${aws_db_instance.mysql.db_name}"
-                    - SPRING_R2DBC_USERNAME="${var.db_username}"
-                    - SPRING_R2DBC_PASSWORD="${var.db_password}"
+                    - SPRING_PROFILES_ACTIVE=prod
+                    - SPRING_R2DBC_URL=r2dbc:mysql://${aws_db_instance.mysql.endpoint}/${aws_db_instance.mysql.db_name}
+                    - SPRING_R2DBC_USERNAME=${var.db_username}
+                    - SPRING_R2DBC_PASSWORD=${var.db_password}
                   restart: unless-stopped
               EOL
 
