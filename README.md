@@ -1,5 +1,7 @@
 ### Prueba técnica Líder técnico Full Stack en Nequi 💜
 # API de Franquicias
+API desplegado en: http://ec2-3-83-12-29.compute-1.amazonaws.com/swagger-ui/index.html#/
+
 
 API RESTful para la gestión de franquicias, sucursales y productos, desarrollada con Spring Boot, WebFlux (programación reactiva) y arquitectura hexagonal.
 
